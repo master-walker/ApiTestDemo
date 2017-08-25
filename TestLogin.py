@@ -8,7 +8,7 @@ class TestLogin(unittest.TestCase):
         cls.login_url = 'http://127.0.0.1:5000/login'
         cls.info_url = 'http://127.0.0.1:5000/info'
         cls.username = 'admin'
-        cls.password = '1234566'
+        cls.password = '123456'
     def test_login(self):
         """
         测试登录
@@ -20,6 +20,7 @@ class TestLogin(unittest.TestCase):
         response = requests.post(self.login_url, data=data).json()
         assert response['code'] == 200
         assert response['msg'] == 'success'
+
     def test_info(self):
         """
         测试info接口
@@ -40,4 +41,5 @@ class TestLogin(unittest.TestCase):
         assert response['data'] == 'info'
 
 
-if  __main__==''
+if  __name__=='__main__':
+    unittest.main()
