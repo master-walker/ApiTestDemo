@@ -1,4 +1,4 @@
 eclipse.preferences.version=1
-encoding//src/TestLogin.py=utf-8
-encoding//src/api.py=utf-8
+encoding//src/api/api.py=utf-8
 encoding//src/config/ReadConfig.py=utf-8
+encoding//src/testcase/TestLogin.py=utf-8
