@@ -1,0 +1,19 @@
+﻿# Windows:
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+report
+
+# Python:
+*.pyc
+*.pyc[cod]
+*.so
+*.egg
+*.egg-info
+*.DS_Store
+*.project
+*.pydevproject
+*.zip
+chromedriver
+#dist
+#build

@@ -1,0 +1,42 @@
+{
+  "login_case" : {
+    "request" : {
+      "url" : "http://127.0.0.1:5000/login",
+      "method": "POST",
+      "json" : {
+        "username": "admin",
+        "password": "123456"
+      }
+    },
+    "response": {
+      "status_code" : "200",
+      "msg" : "success"
+    }
+
+  },
+  "create_user" : {
+    "name": "create user which does not exist",
+   "request": {
+       "url": "http://127.0.0.1:5000/api/users/1000",
+       "method": "POST",
+       "headers": {
+           "content-type": "application/json"
+       },
+       "json": {
+           "name": "user1",
+           "password": "123456"
+       }
+   },
+   "response": {
+       "status_code": 201,
+       "headers": {
+           "Content-Type": "application/json"
+       },
+       "body": {
+           "success": true,
+           "msg": "user created successfully."
+       }
+   }
+  }
+
+}
