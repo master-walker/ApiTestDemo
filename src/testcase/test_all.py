@@ -15,6 +15,24 @@ ses=Session()
 
 USER="sdjk125"
 PASSWORD="hs001471"
+with open('test.txt', 'r') as f:
+    # while 1:
+    # keys = f.readlines()
+    # print keys
+    # for n, k in enumerate(keys):
+    #     print "{0}: {1}".format(n, k)
+    i = 0
+    for key in f:
+        if not key:
+            break
+        key = key.strip()
+        # keys = [key]
+        i = i + 1
+        # print keys
+        # for k in enumerate(key):
+        print "{0}: {1}".format(i,key)
+
+
 
 def get_json_data():
     with open('../test-data/test.json', 'r') as f:

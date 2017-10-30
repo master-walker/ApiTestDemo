@@ -7,9 +7,16 @@ from flask import Flask, request, session, jsonify, make_response
 USERNAME = 'admin'
 PASSWORD = '123456'
 app = Flask(__name__)
+
 users_dict = {
-    'username': 'admin',
-    'password': '123456'
+   '001': {
+       'name': 'admin',
+       'password': '123456'
+   },
+   '002': {
+       'name': 'root',
+       'password': 'root'
+   }
 }
 
 app.secret_key = 'pithy'
