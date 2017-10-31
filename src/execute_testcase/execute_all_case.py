@@ -1,7 +1,9 @@
 #!/usr/bin/python
 # coding=utf-8
+import os
 import requests
 import unittest
+import subprocess
 import functools
 from utils.api_server_unittest import ApiServerUnittest
 
@@ -16,19 +18,19 @@ from utils.api_server_unittest import ApiServerUnittest
 #         return func
 #
 #     return wrapper
-#
-#
-# class Demo_Api(object):
-#     def __init__(self, base_url):
-#         self.base_url = base_url
-
-        # @request()
 
 
-class TestApiServer(ApiServerUnittest):
+
+class TestApiServer(unittest.TestCase):
 
     def setUp(self):
-        super(TestApiServer, self).setUp()
+        # self.base_path = os.path.split(os.path.dirname(os.path.abspath(__file__)))[0]
+        # print self.base_path
+        # api_path = os.path.join(self.base_path, '/api')
+        # print api_path
+        # subprocess.check_output('cd /Users/colin/MyDisk/myfiles/python/ApiTestDemo/src/api')
+        # subprocess.check_output('python api_server.py')
+        # super(TestApiServer, self).setUp()
         self.login_url = 'http://127.0.0.1:5000/login'
         self.info_url = 'http://127.0.0.1:5000/info'
         self.username = 'admin'
@@ -69,7 +71,8 @@ class TestApiServer(ApiServerUnittest):
         assert response['data'] == 'info'
 
     def tearDown(self):
-        super(TestApiServer, self).tearDown()
+        pass
+        # super(TestApiServer, self).tearDown()
 
 
 if __name__ == '__main__':

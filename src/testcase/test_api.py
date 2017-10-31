@@ -3,7 +3,6 @@
 import unittest
 from pprint import pprint
 from requests.sessions import Session
-
 try:
     from urlparse import urljoin
 except ImportError:

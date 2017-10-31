@@ -65,7 +65,7 @@ def create_user(uid):
     response.headers["Content-Type"] = "application/json"
     return response
 
-@app.route('/api/users/<int:uid>')
+@app.route('/api/users/<int:uid>', methods=['GET'])
 # @validate_request
 def get_user(uid):
     user = users_dict.get(uid, {})
@@ -168,18 +168,18 @@ def delete_user(uid):
 #
 #     return response
 #
-# @app.route('/api/users')
+@app.route('/api/users')
 # @validate_request
-# def get_users():
-#     users_list = [user for uid, user in users_dict.items()]
-#     users = {
-#         'success': True,
-#         'count': len(users_list),
-#         'items': users_list
-#     }
-#     response = make_response(json.dumps(users))
-#     response.headers["Content-Type"] = "application/json"
-#     return response
+def get_users():
+    users_list = [user for uid, user in users_dict.items()]
+    users = {
+        'success': True,
+        'count': len(users_list),
+        'items': users_list
+    }
+    response = make_response(json.dumps(users))
+    response.headers["Content-Type"] = "application/json"
+    return response
 #
 # @app.route('/api/reset-all')
 # @validate_request
