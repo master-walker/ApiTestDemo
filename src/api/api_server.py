@@ -86,7 +86,7 @@ def get_user(uid):
     response.headers["Content-Type"] = "application/json"
     return response
 
-@app.route('/api/users/<int:uid>', methods=['PUT'])
+@app.route('/api/users/<int:uid>', methods=['POST'])
 # @validate_request
 def update_user(uid):
     user = users_dict.get(uid, {})

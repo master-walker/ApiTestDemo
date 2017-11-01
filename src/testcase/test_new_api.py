@@ -27,8 +27,8 @@ class Test_Api(object):
             'name': 'user0003',
             'password': '12345'
         }
-        # response = self.session.post(url, data).json()
-        response = requests.post(url, data)
+        response = self.session.post(url, data)#.json()
+        # response = requests.post(url, data)
         resp_json = response.json()
         # while resp_json['msg'] == u'user already existed.':
         #     for i in range(5):
@@ -50,11 +50,9 @@ class Test_Api(object):
         # print self.session.cookies
         # print self.session.params
 
-        pprint(response)
-
     def get_user(self):
         url = urljoin(self.base_url, '002')
-        response = requests.get(url)
+        response = self.session.get(url)
         # print response    
         print response.text
         print response.json()
@@ -62,17 +60,17 @@ class Test_Api(object):
 
     def update_user(self):
         url = urljoin(self.base_url, '001')
-        resp = requests.put(url)
+        resp = self.session.post(url)
         print resp.json()
 
     def get_users(self):
         url = 'http://127.0.0.1:5000/api/users'
-        response = requests.get(url)
+        response = self.session.get(url)
         print response.content
 
 if __name__ == '__main__':
     test = Test_Api()
-    # test.test_create_user()
+    test.test_create_user()
     test.get_user()
     test.update_user()
     test.get_users()
