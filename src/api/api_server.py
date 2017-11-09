@@ -52,7 +52,7 @@ def create_user(uid):
             'success': True,
             'msg': "user created successfully."
         }
-        status_code = 201
+        status_code = 200
         users_dict[uid] = user
     else:
         result = {

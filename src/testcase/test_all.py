@@ -35,7 +35,7 @@ with open('test.txt', 'r') as f:
 
 
 def get_json_data():
-    with open('../test-data/test.json', 'r') as f:
+    with open('../data/test.json', 'r') as f:
         data = json.load(f)
         return data
         # print data
