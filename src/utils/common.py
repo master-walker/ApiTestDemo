@@ -36,6 +36,11 @@ def parse_json_obj(resp_obj):
         'body' : resp_body
     }
 
+def get_cookie():
+    pass
+
+
+
 def diff_content(resp_obj, expected_json):
     diff_json = {}
     resp_json = parse_json_obj(resp_obj)
