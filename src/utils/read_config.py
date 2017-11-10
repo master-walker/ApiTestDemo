@@ -15,9 +15,19 @@ class ReadConfig(object):
         # 读取配置文件
         config.read(path)
 
-        self.url = config.get("base", "url")
+        # api url
+        self.url = config.get("Api", "url")
+        # 登录数据
         self.username = config.get("login-data", "username")
         self.password = config.get("login-data", "password")
+        # 发送邮件配置数据
+        self.mail_host = config.get("Email", "mail_host")
+        self.mail_user = config.get("Email", "mail_user")
+        self.mail_password = config.get("Email", "mail_password")
+        self.mail_port = config.get("Email", "mail_port")
+        self.receiver = config.get("Email", 'receiver')
+        self.subject = config.get("Email", "subject")
+
 
 
 if __name__ == "__main__":
