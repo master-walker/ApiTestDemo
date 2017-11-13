@@ -4,6 +4,8 @@
 '''
 utils function
 '''
+import os
+import unittest,HTMLTestRunner
 from openpyxl import load_workbook
 import json,traceback
 import logging
@@ -125,6 +127,28 @@ def send_email(server, sender, password, receiver, subject, message=None, files=
         finally:
             smtp_server.quit()
 
+def create_suite(test_case_path = r"."):
+    test_unit = unittest.TestSuite()
+    discover = unittest.defaultTestLoader.discover(test_case_path, pattern="test*.py", top_level_dir=None)
+    for test_suite in discover:
+        for test_case in test_suite:
+            test_unit.addTests(test_case)
+    return test_unit
+
+def run_suite(suite, title=u'自动化测试结果', description=u'自动化测试用例执行结果',report_name=""):
+    report_dir_path = os.path.abspath('{0}/{1}'.format(config.report_path, time.strftime("%Y-%m-%d", time.localtime()))) #% ()
+    if os.path.exists(report_dir_path) is not True:
+        os.mkdir(report_dir_path)
+    print report_dir_path
+    report_file_path = report_dir_path + u"/"+report_name +u"AutoTestReport-%s.html" % (time.strftime(u"%H-%M", time.localtime()))
+    fp = open(report_file_path, 'wb')
+    runner = HTMLTestRunner.HTMLTestRunner(
+        stream=fp,
+        title=title,
+        description=description
+    )
+    runner.run(suite)
+    fp.close()
 
 def run_test_case(test_json):
     req_json = test_json['request']
