@@ -2,28 +2,25 @@
 # coding=utf-8
 import os
 import requests
-import unittest
+from requests.sessions import Session
+import unittest, traceback
+import ast
 import subprocess
 import functools
 from utils.api_server_unittest import ApiServerUnittest
-
-'''
-
-'''
-
-
-# def request(func):
-#     @functools.wraps(func)
-#     def wrapper(*args, **kw):
-#         return func
-#
-#     return wrapper
-
+from openpyxl import load_workbook
+from utils import common
+try:
+    from urlparse import urljoin
+except:
+    from urllib.parse import urljoin
+from testcase.test_api import test_create_user
 
 
 class TestApiServer(unittest.TestCase):
 
     def setUp(self):
+        self.session = Session()
         # self.base_path = os.path.split(os.path.dirname(os.path.abspath(__file__)))[0]
         # print self.base_path
         # api_path = os.path.join(self.base_path, '/api')
@@ -36,39 +33,8 @@ class TestApiServer(unittest.TestCase):
         self.username = 'admin'
         self.password = '123456'
 
-
-
-    def test_login(self):
-        """
-        测试登录
-        """
-        data = {
-            'username': self.username,
-            'password': self.password
-        }
-        response = requests.post(self.login_url, data=data).json()
-        print response
-        assert response['status_code'] == 200
-        assert response['msg'] == 'success'
-
-    def test_info(self):
-        """
-        测试info接口
-        """
-        data = {
-            'username': self.username,
-            'password': self.password
-        }
-        response_cookies = requests.post(self.login_url, data=data).cookies
-        session = response_cookies.get('session')
-        assert session
-        info_cookies = {
-            'session': session
-        }
-        response = requests.get(self.info_url, cookies=info_cookies).json()
-        assert response['status_code'] == 200
-        assert response['msg'] == 'success'
-        assert response['data'] == 'info'
+    def test_all_api(self):
+        test_create_user()
 
     def tearDown(self):
         pass
